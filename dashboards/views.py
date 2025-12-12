@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from blogs.models import Category, Blog
 from django.contrib.auth.decorators import login_required
+from dashboards.forms import CategoryForm, BlogPostForm
+from django.template.defaultfilters import slugify
 
 
-# Create your views here.
 @login_required(login_url='login')
 def dashboard(request):
     category_count = Category.objects.all().count()
@@ -21,4 +22,91 @@ def categories(request):
     return render(request, 'dashboard/categories.html')
 
 def add_category(request):
-    return render(request, 'dashboard/add_category.html')
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('categories')
+    else: 
+        form = CategoryForm()
+    context = {
+        'form' : form,
+    }
+    return render(request, 'dashboard/add_category.html', context)
+
+
+def edit_category(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+    if request.method == 'POST':
+        form = CategoryForm(request.POST, instance=category)
+        if form.is_valid():
+            form.save()
+            return redirect('categories')
+    form = CategoryForm(instance=category)
+
+    context = {
+        'form' : form,
+        'category' : category,
+    }
+
+    return render(request, 'dashboard/edit_category.html' , context)
+
+
+def delete_category(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+    category.delete()
+    return redirect('categories')
+
+def posts(request):
+    posts = Blog.objects.all()
+    context = {
+        'posts' : posts,
+    }
+    return render(request, 'dashboard/posts.html' , context)
+
+def add_posts(request):
+    if request.method == 'POST':
+        form = BlogPostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False) # temporarily saving the form to get the post object
+            post.author = request.user
+            post.save()  # after saving this obeject then we can use the id of this object
+            title = form.cleaned_data['title']
+            post.slug = slugify(title) + '-' + str(post.id)
+            post.save()
+            return redirect('posts')
+        else:
+            print('Form is invalid')
+            print(form.errors)
+
+    form = BlogPostForm()
+
+    context = {
+        'form' : form,
+    }
+    return render(request, 'dashboard/add_posts.html', context)
+
+def edit_post(request, pk):
+    post = get_object_or_404(Blog, pk=pk)
+    if request.method == 'POST':
+        form = BlogPostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            post= form.save()
+            title = form.cleaned_data['title']
+            post.slug = slugify(title) + '-' + str(post.id)
+            post.save()
+            return redirect('posts')
+        
+    form = BlogPostForm(instance=post)
+    context = {
+        'form' : form,
+        'post' : post, 
+    }
+
+    return render(request, 'dashboard/edit_post.html', context)
+
+
+def delete_post(request, pk):
+    post = get_object_or_404(Blog, pk=pk)
+    post.delete()
+    return redirect('posts')
