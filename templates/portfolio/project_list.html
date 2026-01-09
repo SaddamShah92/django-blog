@@ -1,139 +1,152 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block title %}Portfolio | Syed Saddam Shah{% endblock %}
+
 {% block content %}
 
-<div class="container py-3">
-    <div class="row justify-content-center">
-        <div class="col-md-10 col-lg-8">
-            <!-- Profile Header -->
-            <div class="text-center mb-5">
-                <img src="https://avatars.githubusercontent.com/u/129947606?s=200&v=4"
+<!-- Hero Section - Compact & Professional with Subtle SVG -->
+<section class="position-relative py-5 text-white overflow-hidden" style="background-color: #0d1117;">
+    <!-- Subtle SVG Wave Background -->
+    <div class="position-absolute top-0 start-0 w-100 h-100 opacity-15">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 200" preserveAspectRatio="none">
+            <path fill="#58a6ff" fill-opacity="0.2" d="M0,100L60,120C120,140,240,180,360,170C480,160,600,100,720,80C840,60,960,80,1080,90C1200,100,1320,100,1380,100L1440,100L1440,200L0,200Z"></path>
+        </svg>
+    </div>
+
+    <div class="container position-relative py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-5 text-center text-lg-start">
+                <img src="https://avatars.githubusercontent.com/u/129947606?s=300&v=4"
                      alt="Syed Saddam Shah"
-                     class="rounded-circle shadow border mb-3"
-                     style="width: 150px; height: 150px; object-fit: cover;">
-                <h1 class="fw-bold text-primary">Syed Saddam Shah</h1>
-                <p class="text-muted">Full Stack Developer | Python | Django | React </p>
-                <div class="d-flex justify-content-center gap-3 mt-3">
-                    <a href="mailto:saddamshah415@gmail.com" class="btn btn-outline-secondary btn-sm">Email</a>
-                    <a href="https://github.com/SaddamShah92" target="_blank" class="btn btn-outline-dark btn-sm">GitHub</a>
-                    <a href="https://www.linkedin.com/in/syed-saddam-shah-a03229197" target="_blank" class="btn btn-outline-primary btn-sm">LinkedIn</a>
+                     class="rounded-circle shadow mb-4"
+                     style="width: 180px; height: 180px; object-fit: cover; border: 5px solid #58a6ff;">
+                <h1 class="display-5 fw-bold mb-2">Syed Saddam Shah</h1>
+                <p class="lead mb-3">Python & Django Developer</p>
+                <p class="mb-4">Real Estate Automation • AI Agents • Clean, Scalable MVPs</p>
+                <div class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-3">
+                    <a href="mailto:saddamshah415@gmail.com" class="btn btn-outline-light">Email Me</a>
+                    <a href="https://github.com/SaddamShah92" target="_blank" class="btn btn-info">GitHub</a>
+                    <a href="https://www.linkedin.com/in/syed-saddam-shah-a03229197" target="_blank" class="btn btn-outline-light">LinkedIn</a>
                 </div>
             </div>
-
-            <!-- About Section -->
-            <section class="mb-5">
-                <h3 class="fw-semibold">About Me</h3>
-                <p class="mt-3">
-                    I'm Saddam, a Computer Science graduate with a master's degree from Virtual University of Pakistan. I have a passion for coding, especially in Python and Django. My journey in the tech world has been driven by curiosity and a desire to build efficient and scalable web applications.
-                </p>
-            </section>
-
-            <!-- display projects -->
-            <section class="mb-5">
-    <h3 class="fw-semibold">My Projects</h3>
-    <p class="mt-3">Projects I'm building on my journey to becoming a full-stack developer.</p>
-
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        {% for project in projects %}
-        <div class="col">
-            <div class="card h-100 shadow-sm border-0">
-                {% if project.image %}
-                    <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.title }}" style="height: 220px; object-fit: cover;">
-                {% else %}
-                    <img src="{% static 'images/no-image.jpg' %}" class="card-img-top" alt="No image" style="height: 220px; object-fit: cover;">
-                {% endif %}
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">{{ project.title }}</h5>
-                    <p class="card-text flex-grow-1">{{ project.description|truncatewords:25 }}</p>
-                    <p class="text-muted small"><strong>Tech:</strong> {{ project.technologies }}</p>
-                    <div class="mt-auto">
-                        <a href="{% url 'portfolio:project_detail' project.pk %}" class="btn btn-primary">View Details</a>
-                        {% if project.github_link %}
-                            <a href="{{ project.github_link }}" target="_blank" class="btn btn-dark">GitHub</a>
-                        {% endif %}
-                        {% if project.live_demo_link %}
-                            <a href="{{ project.live_demo_link }}" target="_blank" class="btn btn-success">Live Demo</a>
-                        {% endif %}
-                    </div>
-                </div>
+            <div class="col-lg-7 text-center mt-4 mt-lg-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="300" height="200" viewBox="0 0 300 200" class="opacity-30">
+                    <rect x="50" y="50" width="200" height="100" rx="10" stroke="#58a6ff" stroke-width="3" fill="none"/>
+                    <circle cx="150" cy="100" r="40" stroke="#8b949e" stroke-width="2" fill="none"/>
+                    <line x1="100" y1="100" x2="200" y2="100" stroke="#58a6ff" stroke-width="2" opacity="0.5"/>
+                    <line x1="150" y1="60" x2="150" y2="140" stroke="#58a6ff" stroke-width="2" opacity="0.5"/>
+                </svg>
             </div>
         </div>
-        {% empty %}
-        <div class="col-12 text-center py-5">
-            <p class="text-muted">No projects added yet — check back soon!</p>
-        </div>
-        {% endfor %}
     </div>
 </section>
 
-            <!-- Work Experience -->
-            <section class="mb-5">
-                <h3 class="fw-semibold">Work Experience</h3>
-                <p class="mt-3">
-                    At TransData Internationals in Lahore, Pakistan, I have been involved in ensuring software quality through rigorous testing. Our projects span various domains, with a significant focus on AI-related applications, including:
+<!-- Main Content - Light Background to Match Your Blog -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <!-- About -->
+        <div class="row mb-5">
+            <div class="col-lg-10 mx-auto text-center">
+                <h2 class="fw-bold text-dark mb-4">About Me</h2>
+               <p class="lead text-center mb-5">
+                    Master's in Computer Science • Lahore, Pakistan • Passionate about automating real-world problems
                 </p>
-                <ul>
-                    <li>Document Automation AI Software</li>
-                    <li>RPA (Robotic Process Automation) AI Software</li>
-                    <li>Tax Certificate Generator React Web Application</li>
-                </ul>
-            </section>
-
-            <!-- Final Year Project -->
-            <section class="mb-5">
-                <h3 class="fw-semibold">Final Year Project</h3>
-                <p class="mt-3">
-                    For my university's Final Year Project, I developed a web application for data scraping. It extracted product data from e-commerce websites like Amazon and Daraz, presenting it on a user-friendly webpage. This project enhanced my skills in web development and data management, providing hands-on experience with web scraping techniques.
+               <p class="fs-5 text-justify">
+                    I'm a Python/Django developer specializing in building scalable web applications, real estate workflow automation, and AI-powered tools. 
+                    Currently at TransData Internationals, I work on AI-driven solutions including Document Automation, RPA, and SaaS MVPs using technologies like OpenAI API, LangChain, AgentOps, n8n, and Zapier.
                 </p>
-            </section>
+                <p class="fs-5 text-justify">
+                    My mission: Deliver efficient, error-free automation for real estate and legal sectors — saving time and driving business value.
+                </p>
+            </div>
+        </div>
 
-            <!-- Skills -->
-            <section class="mb-5">
-                <h3 class="fw-semibold">Technical Skills</h3>
-                <div class="row mt-3">
-                    <div class="col-md-6">
-                        <ul>
-                            <li>Python Programming</li>
-                            <li>Django Framework</li>
-                            <li>RESTful API Development</li>
-                            <li>Database Management (PostgreSQL, MySQL)</li>
-                            <li>Version Control (Git)</li>
-                            <li>Frontend Technologies (HTML, CSS, JavaScript, Bootstrap)</li>
-                        </ul>
-                    </div>
-                    <div class="col-md-6">
-                        <ul>
-                            <li>Authentication and Authorization</li>
-                            <li>Testing (unittest, pytest)</li>
-                            <li>Deployment (Heroku, AWS, Docker)</li>
-                            <li>Security</li>
-                            <li>Performance Optimization</li>
-                            <li>Debugging and Troubleshooting</li>
-                            <li>Agile Methodologies</li>
-                        </ul>
+    
+
+        <!-- Projects -->
+        <div class="mb-5">
+            <h2 class="fw-bold text-dark text-center mb-4">Featured Projects</h2>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                {% for project in projects %}
+                <div class="col">
+                    <div class="card h-100 border-0 shadow-sm hover-shadow">
+                        {% if project.image %}
+                        <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.title }}" style="height: 200px; object-fit: cover;">
+                        {% else %}
+                        <img src="{% static 'images/no-image.jpg' %}" class="card-img-top" alt="No image" style="height: 200px; object-fit: cover;">
+                        {% endif %}
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title fw-bold">{{ project.title }}</h5>
+                            <p class="card-text text-muted flex-grow-1">{{ project.description|truncatewords:20 }}</p>
+                            <p class="small text-muted mb-3"><strong>Tech:</strong> {{ project.technologies }}</p>
+                            <div class="mt-auto">
+                                <a href="{% url 'portfolio:project_detail' project.pk %}" class="btn btn-primary btn-sm me-2">Details</a>
+                                {% if project.github_link %}
+                                <a href="{{ project.github_link }}" target="_blank" class="btn btn-outline-dark btn-sm">GitHub</a>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </section>
+                {% empty %}
+                <div class="col-12 text-center py-5">
+                    <p class="text-muted">More projects coming soon!</p>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="text-center mt-4">
+                <a href="https://github.com/SaddamShah92" target="_blank" class="btn btn-outline-dark">View All on GitHub →</a>
+            </div>
+        </div>
 
-            <!-- Personal Interests -->
-            <section class="mb-5">
-                <h3 class="fw-semibold">Personal Interests</h3>
-                <p class="mt-3">
-                    Beyond coding, I enjoy long walks in nature, exercising, and brainstorming new ideas. I believe in continuous learning and am always eager to take on new challenges that push my boundaries.
-                </p>
-            </section>
-
-            <!-- Contact Information -->
-            <section class="mb-5">
-                <h3 class="fw-semibold">Contact Information</h3>
-                <ul class="list-unstyled mt-3">
-                    <li><strong>Email:</strong> <a href="mailto:saddamshah415@gmail.com">saddamshah415@gmail.com</a></li>
-                    <li><strong>Phone:</strong> +92 3044687200</li>
-                    <li><strong>Location:</strong> Lahore, Pakistan</li>
-                </ul>
-            </section>
+        <!-- Skills -->
+        <div class="mb-5">
+            <h2 class="fw-bold text-dark text-center mb-4">Skills</h2>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div class="col">
+                    <div class="text-center">
+                        <i class="bi bi-code-slash fs-1 text-primary mb-3"></i>
+                        <h5>Backend</h5>
+                        <p class="small text-muted">Python • Django • REST APIs • PostgreSQL</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="text-center">
+                        <i class="bi bi-robot fs-1 text-primary mb-3"></i>
+                        <h5>AI & Automation</h5>
+                        <p class="small text-muted">OpenAI • LangChain • AgentOps • n8n</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="text-center">
+                        <i class="bi bi-cloud fs-1 text-primary mb-3"></i>
+                        <h5>Tools & Deployment</h5>
+                        <p class="small text-muted">Git • Docker • Render • Linux</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+</section>
+
+<!-- Let's Connect - Light Background Before Dark Footer -->
+<section class="py-5 bg-light border-top border-bottom">
+    <div class="container text-center">
+        <h2 class="fw-bold text-dark mb-3">Let's Connect</h2>
+        <p class="lead text-muted mb-4">Open to freelance, collaborations, or full-time opportunities</p>
+        <p class="mb-3">
+            <strong>Email:</strong> <a href="mailto:saddamshah415@gmail.com">saddamshah415@gmail.com</a><br>
+            <strong>Phone:</strong> +92 304 468 7200<br>
+            <strong>Location:</strong> Lahore, Pakistan
+        </p>
+        <div class="d-flex justify-content-center gap-4 mt-4">
+            <a href="https://github.com/SaddamShah92" target="_blank" class="fs-3 text-dark"><i class="bi bi-github"></i></a>
+            <a href="https://www.linkedin.com/in/syed-saddam-shah-a03229197" target="_blank" class="fs-3 text-primary"><i class="bi bi-linkedin"></i></a>
+        </div>
+    </div>
+</section>
+
+
 
 {% endblock %}

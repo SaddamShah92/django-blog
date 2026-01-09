@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% block title %}Articles{% endblock %}
 
 {% block content %}
 
@@ -65,10 +66,64 @@
 
                     </section>
             </article>
+
+            
         </div>
+
+        
+
+        <!-- Sidebar (Side Widgets) -->
+<div class="col-lg-4">
+    <!-- Categories Widget -->
+    <div class="card mb-4 border-0 shadow-sm">
+        <div class="card-header bg-dark text-white py-3">
+            <h5 class="mb-0 fw-bold">Categories</h5>
+        </div>
+        <div class="card-body">
+            <ul class="list-unstyled mb-0">
+                {% for cat in categories %}
+                <li class="mb-2">
+                    <a href="{% url 'posts_by_category' cat.id %}" 
+                       class="text-decoration-none text-dark hover-link">
+                        {{ cat.category_name }}
+                    </a>
+                </li>
+                {% empty %}
+                <li class="text-muted">No categories available</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    
+
+    <!-- Follow Us / Social Links Widget -->
+    {% if social_links %}
+    <div class="card mb-4 border-0 shadow-sm">
+        <div class="card-header bg-dark text-white py-3">
+            <h5 class="mb-0 fw-bold">Follow Us</h5>
+        </div>
+        <div class="card-body">
+            <ul class="list-unstyled mb-0">
+                {% for link in social_links %}
+                <li class="mb-3">
+                    <a href="{{ link.link }}" 
+                       target="_blank" 
+                       rel="noopener noreferrer" 
+                       class="d-flex align-items-center text-decoration-none text-dark hover-link">
+                        <i class="bi bi-{{ link.platform|lower }} me-2 fs-5"></i>
+                        <span>{{ link.platform|title }}</span>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+</div>
       
     </div>
 </div>
+
 
 
 

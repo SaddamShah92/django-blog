@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Home{% endblock %}
 {% block content %}
+
 
 <!-- Hero Section: First Featured Post -->
 {% for post in featured_posts %}
@@ -68,9 +73,12 @@
       {% endfor %}
     </main>
 
+    
+
     <!-- Sidebar -->
     <aside class="col-lg-4">
       <!-- About Widget -->
+       
       <div class="card border-0 shadow-sm mb-4">
         <div class="card-body">
           <h5 class="card-title fw-bold">{{ about.about_heading }}</h5>
@@ -78,10 +86,31 @@
         </div>
       </div>
 
+      <!-- Categories Widget -->
+    <div class="card mb-4 border-0 shadow-sm">
+        <div class="card-header bg-dark text-white py-3">
+            <h5 class="mb-0 fw-bold">Categories</h5>
+        </div>
+        <div class="card-body">
+            <ul class="list-unstyled mb-0">
+                {% for cat in categories %}
+                <li class="mb-2">
+                    <a href="{% url 'posts_by_category' cat.id %}" 
+                       class="text-decoration-none text-dark hover-link">
+                        {{ cat.category_name }}
+                    </a>
+                </li>
+                {% empty %}
+                <li class="text-muted">No categories available</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
       <!-- Social Links Widget -->
       {% if social_links %}
       <div class="card border-0 shadow-sm">
-        <div class="card-header bg-primary text-white">
+        <div class="card-header bg-dark text-white">
           <h5 class="mb-0 fw-bold">Follow Us</h5>
         </div>
         <div class="card-body">
@@ -90,7 +119,7 @@
             <li class="mb-3">
               <a href="{{ link.link }}" target="_blank" rel="noopener" 
                  class="d-flex align-items-center text-decoration-none text-dark fw-medium">
-                <i class="bi bi-{{ link.platform|lower }} me-3 fs-4 text-primary"></i>
+                <i class="bi bi-{{ link.platform|lower }} me-3 fs-4 text-dark"></i>
                 {{ link.platform|title }}
               </a>
             </li>
@@ -102,5 +131,8 @@
     </aside>
   </div>
 </div>
+
+
+
 
 {% endblock %}

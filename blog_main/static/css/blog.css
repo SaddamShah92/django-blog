@@ -73,3 +73,52 @@ h1, h2, h3, h4, h5, h6 {
   transform: translateY(-5px); 
   box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important; 
 }
+
+.transition {
+    transition: all 0.3s ease;
+}
+
+.hover-shadow:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.12) !important;
+}
+
+.hover-text-primary:hover {
+    color: #0d6efd !important; /* Bootstrap primary blue */
+}
+
+.stretched-link::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    content: "";
+}
+
+/* Logo size */
+.logo svg {
+    height: 40px;
+    width: auto;
+}
+
+/* Smooth hover */
+.logo svg path {
+    transition: 0.3s ease;
+}
+
+/* Hover effect on brackets */
+.logo:hover svg path {
+    stroke: #facc15;
+}
+
+/* Name text */
+.logo svg text:first-of-type {
+    fill: #ffffff;
+}
+
+/* Subtitle text */
+.logo svg text:last-of-type {
+    fill: #9ca3af;
+}
