@@ -1,25 +1,33 @@
 {% extends 'base.html' %}
-{% block title %}Dashboard{% endblock %}
+{% block title %}Edit User{% endblock %}
 
 {% block content %}
 {% load crispy_forms_tags %}
 
 
-<div class="row">
-    <!-- Left Sidebar -->
-     {% include 'dashboard/sidebar.html' %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-3 mb-4 mb-lg-0">
+            {% include 'dashboard/sidebar.html' %}
+        </div>
 
-    <!-- Right side content -->
-    <div class="col-md-9">
-        <h3 class="text-center">Edit User</h3>
-        <form action="{% url 'edit_user' user.id %}" method="POST">
-            {%csrf_token %}
-            {{form | crispy}}
+        <div class="col-lg-9">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-light text-center">
+                    <h4 class="mb-0">Edit User</h4>
+                </div>
+                <div class="card-body">
+                    <form action="{% url 'edit_user' user.id %}" method="POST">
+                        {% csrf_token %}
+                        {{ form|crispy }}
 
-
-            <button type="submit" class="btn btn-warning">Submit</button>
-        </form>
-        <br>
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-warning">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

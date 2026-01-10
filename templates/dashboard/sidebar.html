@@ -1,12 +1,42 @@
 <!-- Left Sidebar -->
-    <div class="col-md-3">
-        <div class="nav flex-column nav-pills bg-light" aria-orientation="vertical">
-            <a href="{% url 'dashboard' %}" class="nav-link text-dark {% if '/dashboard/' == request.path %}bg-warning {% endif %}">Dashboard</a>
-            {% if perms.auth.view_user%}
-            <a href="{% url 'users' %}" class="nav-link text-dark {% if '/users/' in request.path %}bg-warning {% endif %}" >Users</a>
-            {% endif %}
-            <a href="{% url 'categories' %}" class="nav-link text-dark {% if '/categories/' in request.path %}bg-warning {% endif %}">Categories</a>
-            <a href="{% url 'posts' %}" class="nav-link text-dark {% if '/posts/' in request.path %}bg-warning {% endif %}" >Posts</a>
-            <a href="" class="nav-link text-dark">Logout</a>
+ <div class="col-lg-3 mb-4 mb-lg-0">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-light text-center">
         </div>
-    </div> 
+        <div class="card-body p-0">
+            <div class="nav flex-column nav-pills" aria-orientation="vertical">
+                <a href="{% url 'dashboard' %}" 
+                   class="nav-link d-flex align-items-center text-dark border-bottom {% if request.path == '/dashboard/' %}active bg-warning text-white{% else %}hover-bg-light{% endif %}">
+                    <i class="fa fa-tachometer fa-fw me-3"></i>
+                    Dashboard
+                </a>
+
+                {% if perms.auth.view_user %}
+                <a href="{% url 'users' %}" 
+                   class="nav-link d-flex align-items-center text-dark border-bottom {% if '/users/' in request.path %}active bg-warning text-white{% else %}hover-bg-light{% endif %}">
+                    <i class="fa fa-users fa-fw me-3"></i>
+                    Users
+                </a>
+                {% endif %}
+
+                <a href="{% url 'categories' %}" 
+                   class="nav-link d-flex align-items-center text-dark border-bottom {% if '/categories/' in request.path %}active bg-warning text-white{% else %}hover-bg-light{% endif %}">
+                    <i class="fa fa-list-ul fa-fw me-3"></i>
+                    Categories
+                </a>
+
+                <a href="{% url 'posts' %}" 
+                   class="nav-link d-flex align-items-center text-dark border-bottom {% if '/posts/' in request.path %}active bg-warning text-white{% else %}hover-bg-light{% endif %}">
+                    <i class="fa fa-file-text fa-fw me-3"></i>
+                    Posts
+                </a>
+
+                <a href="{% url 'logout' %}"  
+                   class="nav-link d-flex align-items-center text-danger">
+                    <i class="fa fa-sign-out fa-fw me-3"></i>
+                    Logout
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

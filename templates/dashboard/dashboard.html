@@ -4,33 +4,42 @@
 
 {% block content %}
 
-<div class="row">
-    <!-- Load the sidebar here -->
-     {% include 'dashboard/sidebar.html' %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-3 mb-4 mb-lg-0">
+            {% include 'dashboard/sidebar.html' %}
+        </div>
 
-    <!-- Right side content -->
-    <div class="col-md-9">
-        <div class="text-center mb-2">Logged in as <b>{{user}}</b></div>
-        <div class="row">
-            <div class="col">
-                <div class="card border-default mb-3">
-                    <div class="card-header text-center text-uppercase font-weight-bold"> All Categories</div>
-                    <div class="card-body text-dark">
-                        <h5 class="card-title text-center">{{category_count}}</h5>
+        <div class="col-lg-9">
+            <div class="text-center mb-4">
+                <h5>Logged in as <b>{{ user }}</b></h5>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card border-default shadow-sm text-center">
+                        <div class="card-header bg-light">
+                            <strong>All Categories</strong>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="mb-0">{{ category_count }}</h3>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col">
-                <div class="card border-default mb-3">
-                    <div class="card-header text-center text-uppercase font-weight-bold"> All Posts</div>
-                    <div class="card-body text-dark">
-                        <h5 class="card-title text-center">{{blogs_count}}</h5>
+
+                <div class="col-md-6">
+                    <div class="card border-default shadow-sm text-center">
+                        <div class="card-header bg-light">
+                            <strong>All Posts</strong>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="mb-0">{{ blogs_count }}</h3>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 
 {% endblock %}
