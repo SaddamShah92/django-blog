@@ -2,6 +2,8 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Blog, Category, Comment
 from django.db.models import Q
+from django.core.paginator import Paginator
+
 
 
 
@@ -9,10 +11,16 @@ def posts_by_category(request, category_id):
     # Fetch the posts that belongs to the category with the id category_id
     posts = Blog.objects.filter(status = 'Published', category = category_id)
     category = get_object_or_404(Category, pk = category_id) # we can also use try/except when we want to do some custom action if the category does not exists
-
+    
+    # Pagination
+    paginator = Paginator(posts, 9)               
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
     context = {
         'posts' : posts,
         'category' : category,
+        'page_obj': page_obj,
     }
 
     return render (request, 'posts_by_category.html', context)

@@ -1,14 +1,21 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from blogs.models import Blog, Category
 from assignments.models import About
 from .forms import RegistrationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import auth
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def home(request):
     featured_posts = Blog.objects.filter(is_featured = True, status = 'Published').order_by('updated_at')
-    posts = Blog.objects.filter(is_featured = False, status = 'Published').order_by('updated_at')
+    all_posts = Blog.objects.filter(is_featured = False, status = 'Published').order_by('-updated_at')
+
+    # Pegination
+
+    paginator = Paginator(all_posts, 4)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
     # Fetch about us
 
@@ -19,7 +26,7 @@ def home(request):
 
     context = {
         'featured_posts' : featured_posts,
-        'posts' : posts,
+        'page_obj' : page_obj,
         'about' : about,
     }
    

@@ -36,7 +36,7 @@ urlpatterns = [
 
     # Dashboards
     path('dashboard/', include('dashboards.urls')),
-    path('developer/', include('portfolio.urls'), name='developer'),
+    path('portfolio/', include('portfolio.urls'), name='developer'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

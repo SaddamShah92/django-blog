@@ -122,3 +122,12 @@ h1, h2, h3, h4, h5, h6 {
 .logo svg text:last-of-type {
     fill: #9ca3af;
 }
+
+.pagination .page-link {
+    margin: 0 5px;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+}
