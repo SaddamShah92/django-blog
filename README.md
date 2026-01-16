@@ -120,7 +120,7 @@ Portfolio page is publicly accessible and dynamic.
 
 
 ### Portfolio Page
-![Portfolio Page](screenshots/portfolio_page.png)
+![Portfolio Page](screenshots/Portfolio_page.png)
 
 # Technologies
 
