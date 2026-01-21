@@ -54,19 +54,17 @@ class CommentModelTests(TestCase):
 
     def setUp(self):
         self.category = Category.objects.create(category_name="Test Category")
-        self.comment = Comment.objects.create(
-            user=User.objects.create_user(username="testuser", password="testpassword"),
-            blog=Blog.objects.create(
-                title="Test Blog",
-                slug="test-blog",
-                category=self.category,
-                author=User.objects.create_user(username="testuser", password="testpassword"),
-                short_description="Test description",
-                blog_body="Test body",
-            ),
-            comment="Test comment"
+        self.user = User.objects.create_user(username="testuser", password="testpassword")
+        self.blog = Blog.objects.create(
+            title="Test Blog",
+            slug="test-blog",
+            category=self.category,
+            author=self.user,
+            short_description="Test description",
+            blog_body="Test body",
+            status="Published",
+            is_featured=True
         )
-        self.user = User.objects.create_user(username="testuser", password="password123")
 
     def test_comment_creation(self):
         comment = Comment.objects.create(
@@ -97,6 +95,8 @@ class PostsByCategoryViewTests(TestCase):
             author=self.user,
             short_description="Test description",
             blog_body="Test body",
+            status="Published",
+            is_featured=True
         )
 
     def test_posts_by_category_view(self):
@@ -127,46 +127,29 @@ class PostsByCategoryViewTests(TestCase):
 class BlogViewTests(TestCase):
 
     def setUp(self):
+        self.user = User.objects.create_user(username="testuser", password="password")
         self.category = Category.objects.create(category_name="Test Category")
         self.blog = Blog.objects.create(
             title="Test Blog",
             slug="test-blog",
             category=self.category,
-            author=User.objects.create_user(username="testuser", password="testpassword"),
-            short_description="Test description",
-            blog_body="Test body",
+            author=self.user,
+            featured_image="image.jpg",
+            short_description="Short description",
+            blog_body="Full blog content",
+            status="Published",
+            is_featured=True
         )
 
     def test_blog_view(self):
-        blog = Blog.objects.create(
-            title="Test Blog",
-            slug="test-blog",
-            category=self.category,
-            author=self.user,
-            featured_image="image.jpg",
-            short_description="Short description",
-            blog_body="Full blog content",
-            status="Published",
-            is_featured=True
-        )
-        response = self.client.get(reverse('blogs', args=[blog.slug]))
+        response = self.client.get(reverse('blogs', args=[self.blog.slug]))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, blog.title)
-        self.assertContains(response, blog.blog_body)
+        self.assertContains(response, self.blog.title)
+        self.assertContains(response, self.blog.blog_body)
 
     def test_post_comment(self):
-        blog = Blog.objects.create(
-            title="Test Blog",
-            slug="test-blog",
-            category=self.category,
-            author=self.user,
-            featured_image="image.jpg",
-            short_description="Short description",
-            blog_body="Full blog content",
-            status="Published",
-            is_featured=True
-        )
-        response = self.client.post(reverse('blogs', args=[blog.slug]), {'comment': "This is a test comment"})
+        self.client.login(username="testuser", password="password")  # Ensure the user is logged in
+        response = self.client.post(reverse('blogs', args=[self.blog.slug]), {'comment': "This is a test comment"})
         self.assertEqual(response.status_code, 302)  # Should redirect back to the same page
         self.assertEqual(Comment.objects.count(), 1)
         self.assertEqual(Comment.objects.first().comment, "This is a test comment")
@@ -183,6 +166,8 @@ class SearchViewTests(TestCase):
             author=self.user,
             short_description="Test description",
             blog_body="Test body",
+            status="Published",
+            is_featured=True
         )
 
     def test_search_view(self):
