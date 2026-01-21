@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import About
+from .models import About, SocialLink
 
 class AboutModelTests(TestCase):
 

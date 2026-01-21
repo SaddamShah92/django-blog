@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
-from .models import Category, Blog
+from blogs.models import Category, Blog
 from django.contrib.auth.models import User
 
 class CategoryViewsTests(TestCase):

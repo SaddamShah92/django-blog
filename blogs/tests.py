@@ -53,16 +53,18 @@ class BlogModelTests(TestCase):
 class CommentModelTests(TestCase):
 
     def setUp(self):
-        self.blog = Blog.objects.create(
-            title="Test Blog",
-            slug="test-blog",
-            category=self.category,
-            author=self.user,
-            featured_image="image.jpg",
-            short_description="Short description",
-            blog_body="Full blog content",
-            status="Published",
-            is_featured=True
+        self.category = Category.objects.create(category_name="Test Category")
+        self.comment = Comment.objects.create(
+            user=User.objects.create_user(username="testuser", password="testpassword"),
+            blog=Blog.objects.create(
+                title="Test Blog",
+                slug="test-blog",
+                category=self.category,
+                author=User.objects.create_user(username="testuser", password="testpassword"),
+                short_description="Test description",
+                blog_body="Test body",
+            ),
+            comment="Test comment"
         )
         self.user = User.objects.create_user(username="testuser", password="password123")
 
@@ -86,17 +88,15 @@ class CommentModelTests(TestCase):
 class PostsByCategoryViewTests(TestCase):
 
     def setUp(self):
-        self.category = Category.objects.create(category_name="Tech")
-        Blog.objects.create(
+        self.user = User.objects.create_user(username="testuser", password="testpassword")
+        self.category = Category.objects.create(category_name="Test Category")
+        self.blog = Blog.objects.create(
             title="Test Blog",
             slug="test-blog",
             category=self.category,
             author=self.user,
-            featured_image="image.jpg",
-            short_description="Short description",
-            blog_body="Full blog content",
-            status="Published",
-            is_featured=True
+            short_description="Test description",
+            blog_body="Test body",
         )
 
     def test_posts_by_category_view(self):
@@ -125,6 +125,17 @@ class PostsByCategoryViewTests(TestCase):
         self.assertContains(response, "Test Blog")
 
 class BlogViewTests(TestCase):
+
+    def setUp(self):
+        self.category = Category.objects.create(category_name="Test Category")
+        self.blog = Blog.objects.create(
+            title="Test Blog",
+            slug="test-blog",
+            category=self.category,
+            author=User.objects.create_user(username="testuser", password="testpassword"),
+            short_description="Test description",
+            blog_body="Test body",
+        )
 
     def test_blog_view(self):
         blog = Blog.objects.create(
@@ -163,17 +174,15 @@ class BlogViewTests(TestCase):
 class SearchViewTests(TestCase):
 
     def setUp(self):
-        self.category = Category.objects.create(category_name="Tech")
+        self.user = User.objects.create_user(username="testuser", password="testpassword")
+        self.category = Category.objects.create(category_name="Test Category")
         self.blog = Blog.objects.create(
-            title="Searchable Blog",
-            slug="searchable-blog",
+            title="Test Blog",
+            slug="test-blog",
             category=self.category,
             author=self.user,
-            featured_image="image.jpg",
-            short_description="Search for this",
-            blog_body="This blog should appear when searched.",
-            status="Published",
-            is_featured=True
+            short_description="Test description",
+            blog_body="Test body",
         )
 
     def test_search_view(self):
