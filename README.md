@@ -2,7 +2,7 @@
 
 A full-featured, role-based blogging platform built with **Django** (backend) and **Bootstrap** (frontend). Started as a personal practice project and evolved into a complete functional application with separate dashboards for different user roles, a personal portfolio section, and dynamic content management.
 
-Live Demo: 
+Live Demo: saddamshah.com
 
 ## Features
 
