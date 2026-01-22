@@ -2,6 +2,7 @@ from django.test import TestCase
 from .models import Category, Comment, Blog
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 class CategoryModelTests(TestCase):
 
@@ -107,17 +108,18 @@ class PostsByCategoryViewTests(TestCase):
 
     def test_pagination(self):
         # Create multiple blogs to test pagination
-        for _ in range(15):
+        for i in range(15):
             Blog.objects.create(
-            title="Test Blog",
-            slug=f"test-blog-{i}",  # Ensure unique slug
-            category=self.category,
-            author=self.user,
-            short_description="Short description",
-            blog_body="Full blog content",
-            status="Published",
-            is_featured=True
-        )
+                title=f"Test Blog {i}",
+                slug=f"test-blog-{i}",
+                category=self.category,
+                author=self.user,
+                featured_image="image.jpg",
+                short_description="Short description",
+                blog_body="Full blog content",
+                status="Published",
+                is_featured=True
+            )
 
 
         response = self.client.get(reverse('posts_by_category', args=[self.category.id]) + '?page=2')
@@ -175,20 +177,30 @@ class SearchViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Test Blog")
 
-    def test_empty_search(self):
+    def test_empty_search_returns_all_published_blogs(self):
         response = self.client.get(reverse('search') + '?keyword=')
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "No blogs found.")
+        self.assertContains(response, self.blog.title)
 
-def test_add_post(self):
-    response = self.client.post(reverse('add_post'), {
-        'title': 'New Test Blog',
-        'slug': 'new-test-blog',
-        'category': self.category.id,
-        'author': self.user.id,
-        'featured_image': 'path/to/image.jpg',  # Ensure the image field is passed
-        'short_description': 'Short description',
-        'blog_body': 'Blog content',
-        'status': 'Published',
-    })
-    self.assertEqual(response.status_code, 302)  # Expecting a redirect after saving
+    def test_add_post(self):
+        image = SimpleUploadedFile(
+            "test.jpg",
+            b"file_content",
+            content_type="image/jpeg"
+        )
+
+        response = self.client.post(
+            reverse('add_post'),
+            {
+                'title': 'New Test Blog',
+                'slug': 'new-test-blog',
+                'category': self.category.id,
+                'short_description': 'Short description',
+                'blog_body': 'Blog content',
+                'status': 'Published',
+                'featured_image': image,
+            },
+            follow=False
+        )
+
+        self.assertEqual(response.status_code, 302)
