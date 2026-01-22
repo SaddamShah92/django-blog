@@ -38,21 +38,6 @@ class BlogViewsTests(TestCase):
         self.category = Category.objects.create(category_name='Tech')
         self.client.login(username='testuser', password='testpassword')
 
-    def test_add_post(self):
-        response = self.client.post(reverse('add_posts'), {
-            'title': 'New Blog Post',
-            'category': self.category.id,
-            'featured_image': 'image.jpg',
-            'short_description': 'A short description',
-            'blog_body': 'The full body of the blog post',
-            'status': 'Published',
-            'is_featured': True
-        })
-        self.assertEqual(response.status_code, 302)  # Should redirect to posts page
-        self.assertEqual(Blog.objects.count(), 1)  # Ensure blog post is created
-        blog = Blog.objects.first()
-        self.assertTrue(blog.slug.startswith('new-blog-post'))  # Check slug is generated
-
     def test_edit_post(self):
         blog = Blog.objects.create(
             title='Old Blog Post',

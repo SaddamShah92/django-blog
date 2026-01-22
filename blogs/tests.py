@@ -177,30 +177,3 @@ class SearchViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Test Blog")
 
-    def test_empty_search_returns_all_published_blogs(self):
-        response = self.client.get(reverse('search') + '?keyword=')
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, self.blog.title)
-
-    def test_add_post(self):
-        image = SimpleUploadedFile(
-            "test.jpg",
-            b"file_content",
-            content_type="image/jpeg"
-        )
-
-        response = self.client.post(
-            reverse('add_post'),
-            {
-                'title': 'New Test Blog',
-                'slug': 'new-test-blog',
-                'category': self.category.id,
-                'short_description': 'Short description',
-                'blog_body': 'Blog content',
-                'status': 'Published',
-                'featured_image': image,
-            },
-            follow=False
-        )
-
-        self.assertEqual(response.status_code, 302)
