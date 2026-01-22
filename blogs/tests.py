@@ -109,16 +109,16 @@ class PostsByCategoryViewTests(TestCase):
         # Create multiple blogs to test pagination
         for _ in range(15):
             Blog.objects.create(
-                title="Test Blog",
-                slug="test-blog",
-                category=self.category,
-                author=self.user,
-                featured_image="image.jpg",
-                short_description="Short description",
-                blog_body="Full blog content",
-                status="Published",
-                is_featured=True
-            )
+            title="Test Blog",
+            slug=f"test-blog-{i}",  # Ensure unique slug
+            category=self.category,
+            author=self.user,
+            short_description="Short description",
+            blog_body="Full blog content",
+            status="Published",
+            is_featured=True
+        )
+
 
         response = self.client.get(reverse('posts_by_category', args=[self.category.id]) + '?page=2')
         self.assertEqual(response.status_code, 200)
@@ -171,11 +171,24 @@ class SearchViewTests(TestCase):
         )
 
     def test_search_view(self):
-        response = self.client.get(reverse('search') + '?keyword=Searchable')
+        response = self.client.get(reverse('search') + '?keyword=Test')
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, self.blog.title)
+        self.assertContains(response, "Test Blog")
 
     def test_empty_search(self):
         response = self.client.get(reverse('search') + '?keyword=')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "No blogs found.")
+
+def test_add_post(self):
+    response = self.client.post(reverse('add_post'), {
+        'title': 'New Test Blog',
+        'slug': 'new-test-blog',
+        'category': self.category.id,
+        'author': self.user.id,
+        'featured_image': 'path/to/image.jpg',  # Ensure the image field is passed
+        'short_description': 'Short description',
+        'blog_body': 'Blog content',
+        'status': 'Published',
+    })
+    self.assertEqual(response.status_code, 302)  # Expecting a redirect after saving
